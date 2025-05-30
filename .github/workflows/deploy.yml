@@ -27,10 +27,17 @@ jobs:
         run: |
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
 
+      - name: Check and create directories on EC2
+        run: |
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+            'mkdir -p /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task/docker/nginx && mkdir -p /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task'
+
       - name: Set up environment variables on EC2
         run: |
-          echo "${{ secrets.ENV_FILE_CONTENTS }}" > /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task/.env
-          echo "${{ secrets.NGINX_ENV_FILE_CONTENTS }}" > /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task/docker/nginx/.env
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+            "echo \"${{ secrets.ENV_FILE_CONTENTS }}\" > /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task/.env"
+          ssh ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} \
+            "echo \"${{ secrets.NGINX_ENV_FILE_CONTENTS }}\" > /home/ubuntu/py-fastapi-homework-5-ec2-deploy-task/docker/nginx/.env"
 
       - name: Execute Deployment Script on EC2
         run: |
