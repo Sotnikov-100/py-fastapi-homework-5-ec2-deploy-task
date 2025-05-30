@@ -1,4 +1,4 @@
-FROM nginx:stable
+FROM nginx:1.22.1
 
 # Install extras to support sub_filter
 RUN apt-get update && \
