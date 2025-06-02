@@ -133,7 +133,6 @@ services:
       - "443:443"
     volumes:
       - ./configs/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./configs/nginx/auth.conf:/etc/nginx/conf.d/auth.conf:ro
       - /etc/letsencrypt:/etc/letsencrypt:ro
     depends_on:
       - web
